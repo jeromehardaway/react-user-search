@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   TextField,
   Autocomplete,
@@ -8,16 +8,18 @@ import {
   Typography,
   Snackbar,
   Alert,
-} from '@mui/material';
-import type { User } from '../types/User';
-import { formatUserDisplay } from '../utils/userUtils';
-import { useUsers } from '../hooks/useUsers';
-import { useDebounce } from '../hooks/useDebounce';
+  Avatar,
+} from "@mui/material";
+import type { User } from "../types/User";
+import { getInitials, formatUserDisplay } from "../utils/userUtils";
+import { useUsers } from "../hooks/useUsers";
+import { useDebounce } from "../hooks/useDebounce";
+import { getColorFromString } from "../utils/userUtils";
 
 export const UserSearch = () => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const debouncedInput = useDebounce(inputValue, 300);
 
   const { users, loading, error } = useUsers();
@@ -27,7 +29,7 @@ export const UserSearch = () => {
   );
 
   return (
-    <Box sx={{ maxWidth: 600, mx: 'auto', p: 2 }}>
+    <Box sx={{ maxWidth: 600, mx: "auto", p: 2 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         User Search
       </Typography>
@@ -44,6 +46,28 @@ export const UserSearch = () => {
         getOptionLabel={(option) => formatUserDisplay(option)}
         onChange={(_, newValue) => setSelectedUser(newValue)}
         isOptionEqualToValue={(option, value) => option.id === value.id}
+renderOption={(props, Option) => {
+  const color = getColorFromString(Option.name);
+  console.log('Name:', Option.name, 'Color:', color);
+
+  return (
+    <li {...props} key={Option.id}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Avatar
+          sx={{
+            width: 32,
+            height: 32,
+            bgcolor: color,
+            color: 'white',
+          }}
+        >
+          {getInitials(Option.name)}
+        </Avatar>
+        <Typography>{formatUserDisplay(Option)}</Typography>
+      </Box>
+    </li>
+  );
+}}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -54,7 +78,9 @@ export const UserSearch = () => {
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                   {params.InputProps.endAdornment}
                 </>
               ),
@@ -65,9 +91,21 @@ export const UserSearch = () => {
 
       {selectedUser && (
         <Paper elevation={3} sx={{ mt: 4, p: 3 }}>
-          <Typography variant="h5" gutterBottom>
-            {formatUserDisplay(selectedUser)}
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+            <Avatar
+              sx={{
+                width: 32,
+                height: 32,
+                bgcolor: getColorFromString(Option.name),
+                color: "white",
+              }}
+            >
+              {getInitials(Option.name)}
+            </Avatar>
+            <Typography variant="h5">
+              {formatUserDisplay(selectedUser)}
+            </Typography>
+          </Box>
 
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Address:
@@ -80,14 +118,18 @@ export const UserSearch = () => {
             {selectedUser.address.city}, {selectedUser.address.zipcode}
           </Typography>
 
-          <Typography variant="caption" display="block" sx={{ mt: 2, color: 'text.secondary' }}>
+          <Typography
+            variant="caption"
+            display="block"
+            sx={{ mt: 2, color: "text.secondary" }}
+          >
             User ID: {selectedUser.id}
           </Typography>
         </Paper>
       )}
 
       <Snackbar open={!!error} autoHideDuration={6000}>
-        <Alert severity="error" sx={{ width: '100%' }}>
+        <Alert severity="error" sx={{ width: "100%" }}>
           {error}
         </Alert>
       </Snackbar>
