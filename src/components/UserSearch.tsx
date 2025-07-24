@@ -1,59 +1,46 @@
-import { useState, useEffect } from 'react';
-import { TextField, Autocomplete, CircularProgress, Paper, Box, Typography } from '@mui/material';
+import { useState } from 'react';
+import {
+  TextField,
+  Autocomplete,
+  CircularProgress,
+  Paper,
+  Box,
+  Typography,
+  Snackbar,
+  Alert,
+} from '@mui/material';
 import type { User } from '../types/User';
-import { formatUserDisplay, sortUsersByLastName } from '../utils/userUtils';
+import { formatUserDisplay } from '../utils/userUtils';
+import { useUsers } from '../hooks/useUsers';
+import { useDebounce } from '../hooks/useDebounce';
 
 export const UserSearch = () => {
   const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState<User[]>([]);
-  const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  
-  useEffect(() => {
-    let active = true;
+  const [inputValue, setInputValue] = useState('');
+  const debouncedInput = useDebounce(inputValue, 300);
 
-    if (!open) {
-      return undefined;
-    }
+  const { users, loading, error } = useUsers();
 
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const data = await response.json();
-        
-        if (active) {
-          // Sort users alphabetically by last name
-          const sortedUsers = sortUsersByLastName(data);
-          setOptions(sortedUsers);
-        }
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-
-    return () => {
-      active = false;
-    };
-  }, [open]);
+  const filteredUsers = users.filter((user) =>
+    formatUserDisplay(user).toLowerCase().includes(debouncedInput.toLowerCase())
+  );
 
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', p: 2 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         User Search
       </Typography>
-      
+
       <Autocomplete
         id="user-search"
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        options={options}
+        options={filteredUsers}
         loading={loading}
+        inputValue={inputValue}
+        onInputChange={(_, newValue) => setInputValue(newValue)}
         getOptionLabel={(option) => formatUserDisplay(option)}
         onChange={(_, newValue) => setSelectedUser(newValue)}
         isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -81,23 +68,29 @@ export const UserSearch = () => {
           <Typography variant="h5" gutterBottom>
             {formatUserDisplay(selectedUser)}
           </Typography>
-          
+
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Address:
           </Typography>
-          
+
           <Typography variant="body1">
             {selectedUser.address.street}, {selectedUser.address.suite}
           </Typography>
           <Typography variant="body1">
             {selectedUser.address.city}, {selectedUser.address.zipcode}
           </Typography>
-          
+
           <Typography variant="caption" display="block" sx={{ mt: 2, color: 'text.secondary' }}>
             User ID: {selectedUser.id}
           </Typography>
         </Paper>
       )}
+
+      <Snackbar open={!!error} autoHideDuration={6000}>
+        <Alert severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
