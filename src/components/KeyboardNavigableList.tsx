@@ -1,4 +1,4 @@
-import { useEffect, useRef, KeyboardEvent } from 'react';
+import { useEffect, useRef, KeyboardEvent, cloneElement } from 'react';
 
 interface KeyboardNavigableListProps {
   children: React.ReactNode;
@@ -22,7 +22,6 @@ export const KeyboardNavigableList = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Scroll to selected item when selection changes
     if (selectedIndex >= 0 && containerRef.current) {
       const container = containerRef.current;
       const items = Array.from(container.querySelectorAll(itemSelector));
@@ -37,12 +36,10 @@ export const KeyboardNavigableList = ({
   }, [selectedIndex, itemSelector]);
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    // Call custom handler if provided
     if (onKeyDown) {
       onKeyDown(e);
     }
 
-    // Handle keyboard navigation
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
@@ -84,13 +81,21 @@ export const KeyboardNavigableList = ({
     <div
       ref={containerRef}
       id={listId}
-      role="listbox"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      aria-activedescendant={selectedIndex >= 0 ? `${listId}-item-${selectedIndex}` : undefined}
-      aria-label="Navigable list"
     >
-      {children}
+      {Array.isArray(children)
+        ? children.map((child, idx) =>
+            child && typeof child === 'object' && 'props' in child
+              ? (
+                  cloneElement(child, {
+                    id: child.props?.id || `${listId}-item-${idx}`,
+                    'data-selected': selectedIndex === idx,
+                  })
+                )
+              : child
+          )
+        : children}
     </div>
   );
 };
