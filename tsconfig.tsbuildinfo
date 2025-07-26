@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/keyboardnavigablelist.tsx","./src/components/usersearch.tsx","./src/components/virtuallist.tsx","./src/config/api.ts","./src/hooks/useapicache.ts","./src/hooks/usedebounce.ts","./src/hooks/useusers.ts","./src/types/user.ts","./src/utils/userutils.ts"],"errors":true,"version":"5.8.3"}

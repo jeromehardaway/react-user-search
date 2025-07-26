@@ -1,4 +1,4 @@
-import type { User } from '../types/User';
+import type { User } from '../types/User.js';
 
 /**
  * Formats a user's name according to the required format: "{Last Name} {Suffix}, {First Name} (Title)"
