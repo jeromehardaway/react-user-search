@@ -1,21 +1,22 @@
 # React User Search App
 
-A React application that provides an autocomplete search for users from the JSONPlaceholder API and displays their address details.
+A React application that provides an auto-complete search for users from the JSONPlaceholder API and displays their name and address information according to specific formatting requirements.
 
 ## Features
 
-- Autocomplete search using Material UI components
-- User names displayed in format: Last Name [Suffix], First Name (Title)
-- Display of user details including address information
-- Alphabetical sorting by last name
-- Debounced search for improved performance
+- Auto-complete search using Material UI components
+- User names displayed in format: "{Last Name} {Suffix}, {First Name} (Title)"
+- Results sorted alphabetically by last name
+- Display of user address details
+- Avatar generation based on user names
 - Responsive design
 
 ## Technologies
 
 - React with TypeScript
-- Material UI
+- Material UI components
 - Fetch API for data retrieval
+- Jest for testing
 - Vite for fast development and building
 
 ## Getting Started
@@ -29,7 +30,59 @@ A React application that provides an autocomplete search for users from the JSON
 
 1. Clone the repository
 
-```bash
-git clone https://github.com/jeromehardaway/react-user-search.git
-cd react-user-search
+   ```bash
+   git clone https://github.com/jeromehardaway/react-user-search.git
+   cd react-user-search
+   ```
+
+1. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+1. Start the development server
+
+   ```bash
+   npm run dev
+   ```
+
+1. Run tests
+
+   ```bash
+   npm test
+   ```
+
+## Implementation Details
+
+- User data is fetched from [JSONPlaceholder API](https://jsonplaceholder.typicode.com/users)
+- Name formatting handles various cases:
+  - "Jane Doe" → "Doe, Jane"
+  - "Mr. John Doe Jr." → "Doe Jr., John (Mr.)"
+  - "Mr. James Von Doe III" → "Von Doe III, James (Mr.)"
+- Custom avatar generation with user initials and consistent colors
+
+## Project Structure
+
+```text
+src/
+├── assets/         # Static assets
+├── components/     # React components
+│   └── UserSearch.tsx
+├── hooks/          # Custom React hooks
+│   ├── useDebounce.ts
+│   └── useUsers.ts
+├── types/          # TypeScript type definitions
+│   └── User.ts
+├── utils/          # Utility functions
+│   └── userUtils.ts
+├── App.tsx         # Main application component
+└── main.tsx        # Application entry point
 ```
+
+## Future Improvements
+
+- Add map integration for user locations
+- Implement favorite users functionality
+- Add filtering by company or location
+- Create a dark mode theme option
