@@ -46,28 +46,27 @@ export const UserSearch = () => {
         getOptionLabel={(option) => formatUserDisplay(option)}
         onChange={(_, newValue) => setSelectedUser(newValue)}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-renderOption={(props, Option) => {
-  const color = getColorFromString(Option.name);
-  console.log('Name:', Option.name, 'Color:', color);
-
-  return (
-    <li {...props} key={Option.id}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Avatar
-          sx={{
-            width: 32,
-            height: 32,
-            bgcolor: color,
-            color: 'white',
-          }}
-        >
-          {getInitials(Option.name)}
-        </Avatar>
-        <Typography>{formatUserDisplay(Option)}</Typography>
-      </Box>
-    </li>
-  );
-}}
+        renderOption={(props, option) => {
+          const color = getColorFromString(option.name);
+          
+          return (
+            <li {...props} key={option.id}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Avatar
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    bgcolor: color,
+                    color: 'white',
+                  }}
+                >
+                  {getInitials(option.name)}
+                </Avatar>
+                <Typography>{formatUserDisplay(option)}</Typography>
+              </Box>
+            </li>
+          );
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -96,11 +95,11 @@ renderOption={(props, Option) => {
               sx={{
                 width: 32,
                 height: 32,
-                bgcolor: getColorFromString(Option.name),
+                bgcolor: getColorFromString(selectedUser.name),
                 color: "white",
               }}
             >
-              {getInitials(Option.name)}
+              {getInitials(selectedUser.name)}
             </Avatar>
             <Typography variant="h5">
               {formatUserDisplay(selectedUser)}
