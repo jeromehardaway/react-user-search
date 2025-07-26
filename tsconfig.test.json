@@ -1,11 +1,19 @@
 {
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
-    "types": ["jest", "node"],
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "verbatimModuleSyntax": false
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "types": ["jest", "node"],
+    "verbatimModuleSyntax": false,
+    "composite": true,
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "./dist/test",
+    "allowImportingTsExtensions": false
   },
   "include": ["tests", "src"],
   "exclude": ["node_modules"]

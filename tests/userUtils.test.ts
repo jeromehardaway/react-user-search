@@ -1,4 +1,4 @@
-import { formatUserName } from '../src/utils/userUtils';
+import { formatUserName } from '../src/utils/userUtils.js';
 
 describe('formatUserName', () => {
   const testCases = [
@@ -31,18 +31,36 @@ describe('formatUserName', () => {
     });
   });
   
-  // Add some edge cases
-  it('handles empty string', () => {
-    expect(formatUserName('')).toBe('');
+  describe('edge cases', () => {
+    it('handles empty string', () => {
+      expect(formatUserName('')).toBe('');
+    });
+    
+    it('handles null input', () => {
+      expect(formatUserName(null)).toBe('');
+    });
+    
+    it('handles undefined input', () => {
+      expect(formatUserName(undefined)).toBe('');
+    });
+    
+    it('handles single word name', () => {
+      expect(formatUserName('John')).toEqual('John');
+    });
   });
   
-  it('handles null input', () => {
-    // @ts-ignore - Testing null input even though types don't allow it
-    expect(formatUserName(null)).toBe('');
-  });
-  
-  it('handles undefined input', () => {
-    // @ts-ignore - Testing undefined input even though types don't allow it
-    expect(formatUserName(undefined)).toBe('');
+  // Test specific formatting requirements
+  describe('specific formatting requirements', () => {
+    it('correctly formats name with title', () => {
+      expect(formatUserName('Dr. John Smith')).toBe('Smith, John (Dr.)');
+    });
+    
+    it('correctly formats name with suffix', () => {
+      expect(formatUserName('John Smith Jr.')).toBe('Smith Jr., John');
+    });
+    
+    it('correctly formats name with compound last name', () => {
+      expect(formatUserName('John van der Wal')).toBe('van der Wal, John');
+    });
   });
 });
