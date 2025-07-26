@@ -42,10 +42,17 @@ A React application that provides an auto-complete search for users from the JSO
    npm install
    ```
 
-1. Start the development server
+1. Running the application
 
    ```bash
+   # Option 1: Development server with hot reloading
    npm run dev
+   
+   # Option 2: Build and preview the application
+   npm run build && npm run preview
+   
+   # Access the application at the URL shown in the terminal
+   # (typically http://localhost:5173 for dev or http://localhost:4173 for preview)
    ```
 
 1. Run tests
