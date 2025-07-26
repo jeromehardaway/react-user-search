@@ -1,7 +1,8 @@
 export default {
   preset: 'ts-jest/presets/js-with-ts-esm',
-  testEnvironment: 'node',
-  extensionsToTreatAsEsm: ['.ts'],
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',

@@ -82,7 +82,6 @@ src/
 
 ## Future Improvements
 
-- Add map integration for user locations
 - Implement favorite users functionality
 - Add filtering by company or location
 - Create a dark mode theme option

@@ -81,6 +81,7 @@ export const KeyboardNavigableList = ({
     <div
       ref={containerRef}
       id={listId}
+      data-testid={listId}
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >

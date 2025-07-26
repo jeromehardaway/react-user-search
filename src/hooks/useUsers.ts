@@ -14,21 +14,16 @@ export function useUsers() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      // Try to get data from cache first
       const cachedUsers = getCachedData<User[]>(USERS_CACHE_KEY);
       
       if (cachedUsers) {
-        // Use cached data immediately
         setUsers(cachedUsers);
         
-        // If data is stale, refresh in background
         if (isStale) {
           fetchFreshData();
         }
         return;
       }
-      
-      // No cached data, fetch fresh
       fetchFreshData();
     };
 
@@ -51,10 +46,8 @@ export function useUsers() {
       } catch (error: unknown) {
         console.error('Error fetching users:', error);
         
-        // Safely access error properties with type checking
         const err = error as Error;
-        
-        // Retry logic for network errors
+
         if (retries > 0 && (error instanceof TypeError || (err.message && err.message.includes('Network')))) {
           console.log(`Retrying... (${retries} attempts left)`);
           setTimeout(() => {
@@ -64,7 +57,7 @@ export function useUsers() {
         }
         
         setError(err.message || 'Failed to fetch users');
-        // Keep previous data if available
+
         if (users.length === 0) {
           setUsers([]);
         }
