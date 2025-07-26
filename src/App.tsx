@@ -1,15 +1,32 @@
-import { Container, CssBaseline, ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material'
+import { Container, CssBaseline, ThemeProvider, createTheme, responsiveFontSizes, Box, IconButton, Tooltip } from '@mui/material'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
 import './App.css'
 import './styles/UserSearch.css'
 import { UserSearch } from './components/UserSearch.js'
-import { useMemo } from 'react'
+import { useState, useMemo } from 'react'
+import { ColorModeContext } from './context/ColorModeContext.js'
 
 function App() {
+  // State for theme mode
+  const [mode, setMode] = useState<'light' | 'dark'>('light');
+
+  // Color mode context value
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+      mode,
+    }),
+    [mode],
+  );
+
   // Create a responsive theme
   const theme = useMemo(() => {
     const baseTheme = createTheme({
       palette: {
-        mode: 'light',
+        mode,
         primary: {
           main: '#1976d2',
           light: '#42a5f5',
@@ -21,8 +38,8 @@ function App() {
           dark: '#7b1fa2',
         },
         background: {
-          default: '#f5f5f5',
-          paper: '#ffffff',
+          default: mode === 'light' ? '#f5f5f5' : '#121212',
+          paper: mode === 'light' ? '#ffffff' : '#1e1e1e',
         },
       },
       typography: {
@@ -64,15 +81,33 @@ function App() {
     });
 
     return responsiveFontSizes(baseTheme);
-  }, []);
+  }, [mode]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <UserSearch />
-      </Container>
-    </ThemeProvider>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box sx={{ position: 'fixed', top: 16, right: 16, zIndex: 1100 }}>
+          <Tooltip title={mode === 'dark' ? "Switch to light mode" : "Switch to dark mode"}>
+            <IconButton
+              onClick={colorMode.toggleColorMode}
+              color="inherit"
+              sx={{
+                backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+                '&:hover': {
+                  backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+                },
+              }}
+            >
+              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Container maxWidth="md" sx={{ py: 4 }}>
+          <UserSearch />
+        </Container>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   )
 }
 

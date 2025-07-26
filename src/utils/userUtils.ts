@@ -120,10 +120,11 @@ export const getInitials = (name: string): string => {
  * Generates a consistent color based on a string
  * 
  * @param str - The string to generate a color from
+ * @param isDarkMode - Whether dark mode is enabled
  * @returns A CSS HSL color string
  */
-export const getColorFromString = (str: string): string => {
-  if (!str) return 'hsl(0, 60%, 60%)';
+export const getColorFromString = (str: string, isDarkMode = false): string => {
+  if (!str) return isDarkMode ? 'hsl(0, 60%, 45%)' : 'hsl(0, 60%, 60%)';
   
   let hash = 0;
 
@@ -132,5 +133,9 @@ export const getColorFromString = (str: string): string => {
   }
 
   const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 60%, 60%)`;
+  // For dark mode, we want slightly more vibrant colors
+  const saturation = isDarkMode ? 65 : 60;
+  const lightness = isDarkMode ? 45 : 60;
+  
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };

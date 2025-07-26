@@ -1,11 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { KeyboardNavigableList } from '../../src/components/KeyboardNavigableList.js';
 
+// Mock Element.scrollIntoView
+Element.prototype.scrollIntoView = jest.fn();
+
 describe('KeyboardNavigableList', () => {
   const mockOnItemSelect = jest.fn();
   
   beforeEach(() => {
     mockOnItemSelect.mockClear();
+    (Element.prototype.scrollIntoView as jest.Mock).mockClear();
   });
 
   it('renders children correctly', () => {
@@ -15,9 +19,9 @@ describe('KeyboardNavigableList', () => {
         itemCount={3} 
         itemSelector=".list-item"
       >
-        <div className="list-item">Item 1</div>
-        <div className="list-item">Item 2</div>
-        <div className="list-item">Item 3</div>
+        <div key="item1" className="list-item">Item 1</div>
+        <div key="item2" className="list-item">Item 2</div>
+        <div key="item3" className="list-item">Item 3</div>
       </KeyboardNavigableList>
     );
     
@@ -35,9 +39,9 @@ describe('KeyboardNavigableList', () => {
         selectedIndex={0}
         onItemSelect={mockOnItemSelect}
       >
-        <div className="list-item">Item 1</div>
-        <div className="list-item">Item 2</div>
-        <div className="list-item">Item 3</div>
+        <div key="item1" className="list-item">Item 1</div>
+        <div key="item2" className="list-item">Item 2</div>
+        <div key="item3" className="list-item">Item 3</div>
       </KeyboardNavigableList>
     );
     
@@ -78,9 +82,9 @@ describe('KeyboardNavigableList', () => {
         itemSelector=".list-item"
         onKeyDown={mockOnKeyDown}
       >
-        <div className="list-item">Item 1</div>
-        <div className="list-item">Item 2</div>
-        <div className="list-item">Item 3</div>
+        <div key="item1" className="list-item">Item 1</div>
+        <div key="item2" className="list-item">Item 2</div>
+        <div key="item3" className="list-item">Item 3</div>
       </KeyboardNavigableList>
     );
     

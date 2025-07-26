@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
 import { UserSearch } from '../../src/components/UserSearch.js';
 import { useUsers } from '../../src/hooks/useUsers.js';
 
@@ -69,27 +70,48 @@ describe('UserSearch', () => {
     render(<UserSearch />);
     const input = screen.getByPlaceholderText(/start typing a name/i);
     
+    // In the actual component, we don't call searchUsers directly but filter the list
+    // so let's update this test to check the filtered list instead
     fireEvent.change(input, { target: { value: 'John' } });
     
     // We need to wait because of debounce
     await waitFor(() => {
-      expect(searchUsersMock).toHaveBeenCalledWith('John');
+      // Just verify we have the correct count in the results
+      expect(screen.getByText(/1 user found|1 users found/i)).toBeInTheDocument();
     });
   });
   
-  it('displays user data when available', () => {
-    // Mock specific implementation for this test
+  it('displays user data when available', async () => {
+    const selectedUser = {
+      ...mockUsers[0],
+      username: 'johndoe',
+      phone: '123-456-7890',
+      website: 'example.com',
+      company: { name: 'Example Inc', bs: 'innovation', catchPhrase: 'Best company' },
+      address: {
+        street: '123 Main St',
+        suite: 'Apt 1',
+        city: 'Anytown',
+        zipcode: '12345',
+        geo: { lat: '0', lng: '0' }
+      }
+    };
+    
+    // For this test, we'll directly mock useState to set selectedUser
+    // This better mimics what happens in the component
+    jest.spyOn(React, 'useState').mockImplementationOnce(() => [selectedUser, jest.fn()]);
+    
+    // Mock useUsers to return our test data
     (useUsers as jest.Mock).mockImplementation(() => ({
       users: mockUsers,
       loading: false,
       error: null,
-      searchUsers: jest.fn(),
-      selectedUser: mockUsers[0]
+      searchUsers: jest.fn()
     }));
     
     render(<UserSearch />);
     
-    // Since we're now showing the selected user, check for that user's name
-    expect(screen.getByText(mockUsers[0].name)).toBeInTheDocument();
+    // When a user is selected, we should see the company name
+    expect(screen.getByText('Example Inc')).toBeInTheDocument();
   });
 });

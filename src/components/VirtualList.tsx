@@ -53,6 +53,7 @@ export function VirtualList<T>({
   return (
     <Box
       ref={containerRef}
+      data-testid="virtual-list-container"
       sx={{
         height,
         width,

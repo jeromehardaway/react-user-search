@@ -15,6 +15,7 @@ import {
   Fade,
   Chip,
   Stack,
+  useTheme,
 } from "@mui/material";
 import type { User } from "../types/User.js";
 import { getInitials, formatUserDisplay, getColorFromString } from "../utils/userUtils.js";
@@ -28,6 +29,8 @@ import BusinessIcon from '@mui/icons-material/Business';
 import SearchIcon from '@mui/icons-material/Search';
 
 export const UserSearch = () => {
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [inputValue, setInputValue] = useState("");
@@ -111,7 +114,7 @@ export const UserSearch = () => {
           selectOnFocus
           handleHomeEndKeys
           renderOption={(props, option, { index }) => {
-            const color = getColorFromString(option.name);
+            const color = getColorFromString(option.name, isDarkMode);
             const isSelected = selectedIndex === index;
             
             return (
@@ -212,7 +215,7 @@ export const UserSearch = () => {
                 sx={{
                   width: 64,
                   height: 64,
-                  bgcolor: getColorFromString(selectedUser.name),
+                  bgcolor: getColorFromString(selectedUser.name, isDarkMode),
                   color: "white",
                   fontSize: '1.5rem',
                 }}

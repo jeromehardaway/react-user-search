@@ -10,6 +10,7 @@ A React application that provides an auto-complete search for users from the JSO
 - Display of user address details
 - Avatar generation based on user names
 - Responsive design
+- Dark mode support with theme toggle
 
 ## Technologies
 
@@ -84,4 +85,3 @@ src/
 
 - Implement favorite users functionality
 - Add filtering by company or location
-- Create a dark mode theme option
