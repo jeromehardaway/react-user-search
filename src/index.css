@@ -24,7 +24,6 @@ body {
   width: 100%;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -44,13 +43,11 @@ body {
   background: #a8a8a8;
 }
 
-/* Animation for focus */
 .Mui-focused {
   background-color: rgba(25, 118, 210, 0.08);
   transition: background-color 0.2s ease-in-out;
 }
 
-/* Animation for avatar */
 .MuiAvatar-root {
   transition: transform 0.2s ease-in-out;
 }
@@ -59,7 +56,6 @@ body {
   transform: scale(1.1);
 }
 
-/* Paper hover effects */
 .MuiPaper-root {
   transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
@@ -68,7 +64,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Autocomplete dropdown animation */
 .MuiAutocomplete-popper .MuiPaper-root {
   animation: dropIn 0.2s ease-out;
 }
@@ -84,13 +79,11 @@ body {
   }
 }
 
-/* Focus styles for better accessibility */
 *:focus-visible {
   outline: 2px solid #1976d2;
   outline-offset: 2px;
 }
 
-/* Button hover animation */
 .MuiButton-contained {
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
@@ -99,7 +92,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Loading skeleton animation */
 .MuiSkeleton-root {
   animation: pulse 1.5s ease-in-out 0.5s infinite;
 }

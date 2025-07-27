@@ -1,3 +1,4 @@
+
 import { Container, CssBaseline, ThemeProvider, createTheme, responsiveFontSizes, Box, IconButton, Tooltip } from '@mui/material'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
@@ -8,10 +9,7 @@ import { useState, useMemo } from 'react'
 import { ColorModeContext } from './context/ColorModeContext.js'
 
 function App() {
-  // State for theme mode
   const [mode, setMode] = useState<'light' | 'dark'>('light');
-
-  // Color mode context value
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
@@ -21,8 +19,6 @@ function App() {
     }),
     [mode],
   );
-
-  // Create a responsive theme
   const theme = useMemo(() => {
     const baseTheme = createTheme({
       palette: {
@@ -79,10 +75,8 @@ function App() {
         },
       },
     });
-
     return responsiveFontSizes(baseTheme);
   }, [mode]);
-
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

@@ -6,7 +6,6 @@ interface CacheItem<T> {
   timestamp: number;
 }
 
-// In-memory cache store using type assertion for proper typing
 const cacheStore: Record<string, CacheItem<unknown>> = {};
 
 export function useApiCache() {
@@ -24,7 +23,7 @@ export function useApiCache() {
     
     if (isExpired) {
       setIsStale(true);
-      return item.data; // Return stale data while fetching fresh data
+  return item.data;
     }
     
     return item.data;

@@ -50,7 +50,6 @@ export const UserSearch = () => {
     }
   }, [filteredUsers]);
 
-  // Reset selected index when filtered results change
   useEffect(() => {
     setSelectedIndex(-1);
   }, [filteredUsers.length]);
@@ -108,7 +107,7 @@ export const UserSearch = () => {
           getOptionLabel={(option) => formatUserDisplay(option)}
           onChange={(_, newValue) => setSelectedUser(newValue)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          filterOptions={(x) => x} // Custom filtering is handled by filteredUsers
+          filterOptions={(x) => x}
           blurOnSelect
           clearOnBlur={false}
           selectOnFocus

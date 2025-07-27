@@ -37,17 +37,14 @@ export function VirtualList<T>({
     }
   }, []);
   
-  // Calculate the visible range
   const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
   const visibleCount = Math.ceil(height / itemHeight) + 2 * overscan;
   const endIndex = Math.min(items.length - 1, startIndex + visibleCount);
   
   const visibleItems = items.slice(startIndex, endIndex + 1);
   
-  // Total content height
   const totalHeight = items.length * itemHeight;
   
-  // Offset for visible items
   const offsetY = startIndex * itemHeight;
   
   return (
