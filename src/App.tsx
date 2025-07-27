@@ -2,8 +2,6 @@
 import { Container, CssBaseline, ThemeProvider, createTheme, responsiveFontSizes, Box, IconButton, Tooltip } from '@mui/material'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
-import './App.css'
-import './styles/UserSearch.css'
 import { UserSearch } from './components/UserSearch.js'
 import { useState, useMemo } from 'react'
 import { ColorModeContext } from './context/ColorModeContext.js'
