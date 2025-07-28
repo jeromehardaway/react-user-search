@@ -1,0 +1,107 @@
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { 
+    transform: scale(0.95);
+    opacity: 0; 
+  }
+  to { 
+    transform: scale(1);
+    opacity: 1; 
+  }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(25, 118, 210, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(25, 118, 210, 0); }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1976d2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1565c0;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+.Mui-focused {
+  background-color: rgba(25, 118, 210, 0.08) !important;
+}
+
+.skeleton-pulse {
+  animation: pulse 2s infinite;
+}
+
+.user-card-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.user-card-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.user-card-exit {
+  opacity: 1;
+}
+
+.user-card-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+[role="option"] {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .user-details-card {
+    padding: 16px !important;
+  }
+  
+  .user-avatar {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}

@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Development Server",
+			"type": "shell",
+			"command": "cd /Users/jeromehardaway/work/personal/job_assessment/react-user-search && npm run dev",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}
